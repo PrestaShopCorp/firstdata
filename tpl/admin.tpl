@@ -23,7 +23,7 @@
 			</ul>
 		</div>
 		<div class="firstdata-half R">
-			<h3>{l s='FREE First Data Global Gateway e4&#8480;' mod='firstdata'}<br />
+			<h3>{l s='FREE First Data Global Gateway e4' mod='firstdata'}<br />
 			{l s='(Value of $400)' mod='firstdata'} <strong>*</strong></h3>
 			<ul>
 				<li>{l s='Simple, secure and reliable solution to process online payments' mod='firstdata'}</li>
@@ -32,7 +32,7 @@
 				<li>{l s='24/7/365 customer support' mod='firstdata'}</li>
 				<li>{l s='Ability to perform full or partial refunds' mod='firstdata'}</li>
 			</ul>
-			<p class="firstdata-note"><strong>*</strong> {l s='New merchant account required and subject to credit approval. The free First Data Global Gateway e4&#8480; will be accessed through log in information provided via email within 48 hours of credit approval. Monthly fees for First Data Global Gateway e4&#8480; will apply.' mod='firstdata'}</p>
+			<p class="firstdata-note"><strong>*</strong> {l s='New merchant account required and subject to credit approval. The free First Data Global Gateway e4 will be accessed through log in information provided via email within 48 hours of credit approval. Monthly fees for First Data Global Gateway e4 will apply.' mod='firstdata'}</p>
 		</div>
 		<div class="firstdata-full">
 			<h3>{l s='Accept payments in the United States using all major credit cards' mod='firstdata'}</h3>
