@@ -3,10 +3,10 @@
 <div class="firstdata-wrap">
 	{$firstdata_confirmation}
 	<div class="firstdata-header">
-		<a href="https://fdsnap.secure.force.com/gssb/prestashop" target="_blank"><img src="{$module_dir}img/logo.png" alt="First Data" class="firstdata-logo" /></a>
+		<a href="https://www.merchantselfboarding.com/ngss/presta?PartnerID=presta" target="_blank"><img src="{$module_dir}img/logo.png" alt="First Data" class="firstdata-logo" /></a>
 		<span class="firstdata-intro">{l s='Online Payment Processing' mod='firstdata'}<br />
 		{l s='Fast - Secure - Reliable' mod='firstdata'}</span>
-		<a href="https://fdsnap.secure.force.com/gssb/prestashop" target="_blank" class="firstdata-create-btn">{l s='Create an Account Now!' mod='firstdata'}</a>
+		<a href="https://www.merchantselfboarding.com/ngss/presta?PartnerID=presta" target="_blank" class="firstdata-create-btn">{l s='Create an Account Now!' mod='firstdata'}</a>
 	</div>
 	<div class="firstdata-content">
 		<div class="firstdata-half L">
@@ -74,7 +74,7 @@
 			<div class="firstdata-half R">
 				<h4>{l s='How to get your First Data credentials?' mod='firstdata'}</h4>
 				<ol>
-					<li><p>{l s='Contact First Data directly to' mod='firstdata'} <a href="http://www.empsebiz.com/prestashop/" target="_blank">{l s='apply for your First Data Global Gateway account.' mod='firstdata'}</a></p></li>
+					<li><p>{l s='Contact First Data directly to' mod='firstdata'} <a href="https://www.merchantselfboarding.com/ngss/presta?PartnerID=presta" target="_blank">{l s='apply for your First Data Global Gateway account.' mod='firstdata'}</a></p></li>
 					<li><p><a href="https://globalgatewaye4.firstdata.com/" target="_blank">{l s='Login to your First Data Global Gateway e4 account.' mod='firstdata'}</a></p></li>
 				    <li><p>{l s='From the main navigation click the Administration tab' mod='firstdata'}</p></li>
 				    <li><p>{l s='In the main Administration screen, click the Terminals tab on the left (under the First Data logo)' mod='firstdata'}</p></li>
