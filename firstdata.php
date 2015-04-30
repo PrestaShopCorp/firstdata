@@ -19,7 +19,7 @@ class Firstdata extends PaymentModule
 	{
 		$this->name = 'firstdata';
 		$this->tab = 'payments_gateways';
-		$this->version = '1.2.6';
+		$this->version = '1.2.7';
 
 		parent::__construct();
 

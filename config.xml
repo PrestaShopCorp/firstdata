@@ -2,7 +2,7 @@
 <module>
 	<name>firstdata</name>
 	<displayName><![CDATA[First Data]]></displayName>
-	<version><![CDATA[1.2.6]]></version>
+	<version><![CDATA[1.2.7]]></version>
 	<description><![CDATA[Accept Credit card payments today with First Data (Visa, Mastercard, Amex, Discover, etc.)]]></description>
 	<author><![CDATA[]]></author>
 	<tab><![CDATA[payments_gateways]]></tab>
