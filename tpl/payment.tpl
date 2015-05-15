@@ -31,7 +31,7 @@
 					<option value="{$smarty.section.date_m.index|escape}">{$smarty.section.date_m.index|escape}</option>
 				{/section}
 				</select> / <select name="x_exp_date_y">
-				{section name=date_y start=13 loop=20}
+				{section name=date_y start=14 loop=26}
 					<option value="{$smarty.section.date_y.index|escape}">20{$smarty.section.date_y.index|escape}</option>
 				{/section}
 				</select>
