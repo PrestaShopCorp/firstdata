@@ -63,7 +63,7 @@ class Firstdata extends PaymentModule
 	public function getContent()
 	{
 		$html = '';
-		if (Tools::isSubmit('submitFirstData') && isset($_POST['firstdata_key_id']) && isset($_POST['firstdata_key_hmac']) && isset($_POST['firstdata_gateway_id']) && isset($_POST['firstdata_password']) && 
+		if (Tools::isSubmit('submitFirstData') && isset($_POST['firstdata_key_id']) && isset($_POST['firstdata_key_hmac']) && isset($_POST['firstdata_gateway_id']) && isset($_POST['firstdata_password']) &&
 			!empty($_POST['firstdata_key_id']) && !empty($_POST['firstdata_key_hmac']) && !empty($_POST['firstdata_gateway_id']) && !empty($_POST['firstdata_password']))
 		{
 			Configuration::updateValue('FIRSTDATA_KEY_ID', pSQL(Tools::getValue('firstdata_key_id')));
@@ -265,7 +265,6 @@ class Firstdata extends PaymentModule
 
 	private function _firstDataCall($data_string)
 	{
-		//d($data_string);
 		$content_type = 'application/json; charset=UTF-8';
 		$content_digest = sha1($data_string);
 		$hashtime = gmdate('c');
