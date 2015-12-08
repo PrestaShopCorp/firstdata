@@ -19,7 +19,7 @@ class Firstdata extends PaymentModule
 	{
 		$this->name = 'firstdata';
 		$this->tab = 'payments_gateways';
-		$this->version = '1.2.8';
+		$this->version = '1.2.9';
 
 		parent::__construct();
 
@@ -55,6 +55,7 @@ class Firstdata extends PaymentModule
 		Configuration::deleteByName('FIRSTDATA_KEY_HMAC');
 		Configuration::deleteByName('FIRSTDATA_GATEWAY_ID');
 		Configuration::deleteByName('FIRSTDATA_PASSWORD');
+		Configuration::deleteByName('FIRSTDATA_SENDCVV');
 
 		return parent::uninstall();
 	}
@@ -69,6 +70,7 @@ class Firstdata extends PaymentModule
 			Configuration::updateValue('FIRSTDATA_KEY_HMAC', pSQL(Tools::getValue('firstdata_key_hmac')));
 			Configuration::updateValue('FIRSTDATA_GATEWAY_ID', pSQL(Tools::getValue('firstdata_gateway_id')));
 			Configuration::updateValue('FIRSTDATA_PASSWORD', pSQL(Tools::getValue('firstdata_password')));
+			Configuration::updateValue('FIRSTDATA_SENDCVV', pSQL(Tools::getValue('firstdata_sendcvv')));
 			$html = '<div class="conf confirm">'.$this->l('Configuration updated successfully').'</div>';
 		}
 		else if (Tools::isSubmit('submitFirstData'))
@@ -82,6 +84,7 @@ class Firstdata extends PaymentModule
 		'firstdata_gateway_id' => Configuration::get('FIRSTDATA_GATEWAY_ID'),
 		'firstdata_password' => Configuration::get('FIRSTDATA_PASSWORD'),
 		'firstdata_ssl' => Configuration::get('PS_SSL_ENABLED'),
+		'firstdata_sendcvv' => (Configuration::get('FIRSTDATA_SENDCVV') == 1 ? 'checked' : ''),
 		'firstdata_confirmation' => $html));
 
 		return $this->display(__FILE__, 'tpl/admin.tpl');
@@ -201,7 +204,14 @@ class Firstdata extends PaymentModule
 		$cart = $this->context->cart;
 		if (Validate::isLoadedObject($cart) && !Order::getOrderByCartId((int)Tools::getValue('cart')))
 		{
-			$result = $this->_firstDataCall('{"gateway_id": "'.Configuration::get('FIRSTDATA_GATEWAY_ID').'", "password": "'.Configuration::get('FIRSTDATA_PASSWORD').'", "transaction_type": "00", "amount": "'.(float)$cart->getOrderTotal().'", "cc_number": "'.Tools::safeOutput(Tools::getValue('x_card_num')).'", "cc_expiry": "'.(Tools::getValue('x_exp_date_m') < 10 ? '0'.(int)Tools::getValue('x_exp_date_m') : (int)Tools::getValue('x_exp_date_m')).(int)Tools::getValue('x_exp_date_y').'", "cardholder_name": "'.Tools::safeOutput(Tools::getValue('firstdata_card_holder')).'"}');
+			$result = $this->_firstDataCall('{"gateway_id": "'.Configuration::get('FIRSTDATA_GATEWAY_ID')
+			.'", "password": "'.Configuration::get('FIRSTDATA_PASSWORD')
+			.'", "transaction_type": "00", "amount": "'.(float)$cart->getOrderTotal()
+			.'", "cc_number": "'.Tools::safeOutput(Tools::getValue('x_card_num'))
+			.(Configuration::get('FIRSTDATA_SENDCVV') == 1 ? '", "cvd_presence_ind": "1", "cc_verification_str2": "'.Tools::safeOutput(Tools::getValue('firstdata_card_code')) : '')
+			.'", "cc_expiry": "'.(Tools::getValue('x_exp_date_m') < 10 ? '0'.(int)Tools::getValue('x_exp_date_m') : (int)Tools::getValue('x_exp_date_m')).(int)Tools::getValue('x_exp_date_y')
+			.'", "cardholder_name": "'.Tools::safeOutput(Tools::getValue('firstdata_card_holder'))
+			.'"}');
 			$json_result = Tools::jsondecode($result);
 			if (isset($json_result->transaction_approved) && $json_result->transaction_approved)
 			{
