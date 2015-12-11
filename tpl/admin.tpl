@@ -68,7 +68,7 @@
 				</div>
 				<label for="firstdata_sendcvv">{l s='Send CVV?:' mod='firstdata'}</label>
 				<div class="margin-form">
-					<input type="checkbox" name="firstdata_sendcvv" id="firstdata_sendcvv" value="1" {$firstdata_sendcvv}/>
+					<input type="checkbox" name="firstdata_sendcvv" id="firstdata_sendcvv" value="1" {$firstdata_sendcvv|escape:'htmlall':'UTF-8'}/>
 				</div>
 				<div class="margin-form">
 					<input type="submit" class="button" name="submitFirstData" value="{l s='Save' mod='firstdata'}" />
