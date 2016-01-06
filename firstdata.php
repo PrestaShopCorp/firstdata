@@ -2,7 +2,7 @@
 /*
 *  @author PrestaShop SA <contact@prestashop.com>
 *  @copyright  2007-2015 PrestaShop SA
-*  @version  Release: $Revision: 1.2 $
+*  @version  Release: $Revision: 1.3 $
 *
 *  International Registered Trademark & Property of PrestaShop SA
 */
@@ -19,7 +19,7 @@ class Firstdata extends PaymentModule
 	{
 		$this->name = 'firstdata';
 		$this->tab = 'payments_gateways';
-		$this->version = '1.2.9';
+		$this->version = '1.3.0';
 
 		parent::__construct();
 
@@ -204,14 +204,20 @@ class Firstdata extends PaymentModule
 		$cart = $this->context->cart;
 		if (Validate::isLoadedObject($cart) && !Order::getOrderByCartId((int)Tools::getValue('cart')))
 		{
+			$billing_address = new Address((int)$this->context->cart->id_address_invoice);
+			if ($billing_address->id_state)
+				$billing_state = new State((int)$billing_address->id_state);
+				
+			$customer = new Customer((int)$this->context->cart->id_customer);
+			
 			$result = $this->_firstDataCall('{"gateway_id": "'.Configuration::get('FIRSTDATA_GATEWAY_ID')
 			.'", "password": "'.Configuration::get('FIRSTDATA_PASSWORD')
-			.'", "transaction_type": "00", "amount": "'.(float)$cart->getOrderTotal()
-			.'", "cc_number": "'.Tools::safeOutput(Tools::getValue('x_card_num'))
-			.(Configuration::get('FIRSTDATA_SENDCVV') == 1 ? '", "cvd_presence_ind": "1", "cc_verification_str2": "'.Tools::safeOutput(Tools::getValue('firstdata_card_code')) : '')
+			.'", "transaction_type": "00", "amount": "'.(float)$cart->getOrderTotal().'", "ecommerce_flag": "1", 
+			"client_ip": "'.Tools::getRemoteAddr().'", "client_email": "'.$customer->email.'", "cc_number": "'.Tools::safeOutput(Tools::getValue('x_card_num'))
+			.(Configuration::get('FIRSTDATA_SENDCVV') == 1 ? '", "cvd_presence_ind": "1", "cvd_code": "'.Tools::safeOutput(Tools::getValue('firstdata_card_code')) : '')
 			.'", "cc_expiry": "'.(Tools::getValue('x_exp_date_m') < 10 ? '0'.(int)Tools::getValue('x_exp_date_m') : (int)Tools::getValue('x_exp_date_m')).(int)Tools::getValue('x_exp_date_y')
 			.'", "cardholder_name": "'.Tools::safeOutput(Tools::getValue('firstdata_card_holder'))
-			.'"}');
+			.'", "zip_code": "'.$billing_address->postcode.'", "address": { "address1": "'.$billing_address->address1.'", '.(!empty($billing_address->address2) ? '"address2": "'.$billing_address->address2.'",' : '').' "city": "'.$billing_address->city.'", "zip": "'.$billing_address->postcode.'", '.(isset($billing_state->iso_code) ? '"state": "'.$billing_state->iso_code.'"' : '').' '.(!empty($billing_address->phone) ? ', "phone_number": "'.$billing_address->phone.'", "phone_type": "H"' : '').' } }');
 			$json_result = Tools::jsondecode($result);
 			if (isset($json_result->transaction_approved) && $json_result->transaction_approved)
 			{
@@ -243,7 +249,7 @@ class Firstdata extends PaymentModule
 			else
 			{
 				if (isset($json_result->transaction_approved) && !$json_result->transaction_approved && isset($json_result->bank_message) && $json_result->bank_message != '')
-					$error_msg = Tools::safeOutput($json_result->bank_message);
+					$error_msg = Tools::safeOutput($json_result->exact_message);
 				else
 					$error_msg = trim(substr($result, strpos($result, '-')));
 
@@ -269,11 +275,11 @@ class Firstdata extends PaymentModule
 		$content_digest = sha1($data_string);
 		$hashtime = gmdate('c');
 
-		$hashstr = "POST\n".$content_type."\n".$content_digest."\n".$hashtime."\n/transaction/v12";
+		$hashstr = "POST\n".$content_type."\n".$content_digest."\n".$hashtime."\n/transaction/v19";
 		$authstr = base64_encode(hash_hmac('sha1', $hashstr, Configuration::get('FIRSTDATA_KEY_HMAC'), true));
 
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, 'https://api.globalgatewaye4.firstdata.com/transaction/v12'); // Sandbox: https://api.demo.globalgatewaye4.firstdata.com/transaction/v12
+		curl_setopt($ch, CURLOPT_URL, 'https://api.globalgatewaye4.firstdata.com/transaction/v19'); // Sandbox: https://api.demo.globalgatewaye4.firstdata.com/transaction/v12
 		curl_setopt($ch, CURLOPT_VERBOSE, 0);
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
