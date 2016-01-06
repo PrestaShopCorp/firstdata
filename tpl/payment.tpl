@@ -38,7 +38,7 @@
 			</div>
 			<div class="block-left">
 				<label>{l s='CVV' mod='firstdata'}</label><br />
-				<input type="text" name="firstdata_card_code" id="firstdata_card_code" size="4" maxlength="4" />
+				<input type="text" name="firstdata_card_code" id="firstdata_card_code" size="4" maxlength="4" required/>
 				<a href="javascript:void(0)" class="firstdata-card-cvc-info" style="border: none;">
 					<img src="{$module_dir|escape}img/help.png" id="firstdata_cvv_help" title="{l s='What\'s this?' mod='firstdata'}" alt="" />{l s='What\'s this?' mod='firstdata'}
 					<div class="cvc-info">
