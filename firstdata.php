@@ -20,6 +20,7 @@ class Firstdata extends PaymentModule
 		$this->name = 'firstdata';
 		$this->tab = 'payments_gateways';
 		$this->version = '1.3.0';
+		$this->author = 'PrestaShop';
 
 		parent::__construct();
 
